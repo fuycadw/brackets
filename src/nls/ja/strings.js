@@ -157,7 +157,8 @@ define({
 	"STATUSBAR_INDENT_SIZE_TOOLTIP_TABS": "タブ幅を変更",
 	"STATUSBAR_SPACES": "スペース",
 	"STATUSBAR_TAB_SIZE": "タブ幅",
-	"STATUSBAR_LINE_COUNT": "{0} 行",
+	"STATUSBAR_LINE_COUNT_SINGULAR": "!能=[6788843] {0} Line_=!",
+	"STATUSBAR_LINE_COUNT_PLURAL": "{0} 行",
 
     /**
      * Command Name Constants
@@ -354,7 +355,7 @@ define({
 	"BROWSE_EXTENSIONS": "拡張機能を探す",
     
     // extensions/default/QuickView 
-	"CMD_ENABLE_QUICK_VIEW": "Hover についてのクイックビュー",
+	"CMD_ENABLE_QUICK_VIEW": "ホバー・クイックビュー",
 
     // extensions/default/JSLint
 	"JSLINT_ERRORS": "JSLint エラー",

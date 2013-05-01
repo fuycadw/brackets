@@ -157,7 +157,8 @@ define({
 	"STATUSBAR_INDENT_SIZE_TOOLTIP_TABS": "Cliquez ici pour modifier la largeur du caractère de tabulation.",
 	"STATUSBAR_SPACES": "Espaces",
 	"STATUSBAR_TAB_SIZE": "Taille de tabulation",
-	"STATUSBAR_LINE_COUNT": "{0} lignes",
+	"STATUSBAR_LINE_COUNT_SINGULAR": "[6788843] !é={0} Line=!",
+	"STATUSBAR_LINE_COUNT_PLURAL": "{0} lignes",
 
     /**
      * Command Name Constants
@@ -232,7 +233,7 @@ define({
 	"NAVIGATE_MENU": "Naviguer",
 	"CMD_QUICK_OPEN": "Ouverture rapide",
 	"CMD_GOTO_LINE": "Atteindre la ligne",
-	"CMD_GOTO_DEFINITION": "[6307096] !é=Quick Find Definition=!",
+	"CMD_GOTO_DEFINITION": "Accès rapide à la définition",
 	"CMD_JUMPTO_DEFINITION": "Accéder à la définition",
 	"CMD_JSLINT_FIRST_ERROR": "Aller à la première erreur JSLint",
 	"CMD_TOGGLE_QUICK_EDIT": "Edition rapide",
