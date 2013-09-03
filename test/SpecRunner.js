@@ -22,7 +22,7 @@
  */
 
 /*jslint vars: true, plusplus: true, devel: true, browser: true, nomen: true, indent: 4, maxerr: 50 */
-/*global require, define, $, beforeEach, afterEach, jasmine, brackets, PathUtils */
+/*global require, define, $, beforeEach, afterEach, jasmine, brackets */
 
 // Set the baseUrl to brackets/src
 require.config({
@@ -31,8 +31,8 @@ require.config({
         "test"      : "../test",
         "perf"      : "../test/perf",
         "spec"      : "../test/spec",
-        "text"      : "thirdparty/text",
-        "i18n"      : "thirdparty/i18n"
+        "text"      : "thirdparty/text/text",
+        "i18n"      : "thirdparty/i18n/i18n"
     }
 });
 
@@ -51,7 +51,8 @@ define(function (require, exports, module) {
         UrlParams               = require("utils/UrlParams").UrlParams,
         UnitTestReporter        = require("test/UnitTestReporter").UnitTestReporter,
         NodeConnection          = require("utils/NodeConnection"),
-        BootstrapReporterView   = require("test/BootstrapReporterView").BootstrapReporterView;
+        BootstrapReporterView   = require("test/BootstrapReporterView").BootstrapReporterView,
+        ColorUtils              = require("utils/ColorUtils");
 
     // Load modules that self-register and just need to get included in the main project
     require("document/ChangedDocumentTracker");
@@ -182,6 +183,25 @@ define(function (require, exports, module) {
      * into a single file.
      */
     function _patchJUnitReporter() {
+        jasmine.JUnitXmlReporter.prototype.reportSpecResultsOriginal = jasmine.JUnitXmlReporter.prototype.reportSpecResults;
+        jasmine.JUnitXmlReporter.prototype.getNestedOutputOriginal = jasmine.JUnitXmlReporter.prototype.getNestedOutput;
+
+        jasmine.JUnitXmlReporter.prototype.reportSpecResults = function (spec) {
+            if (spec.results().skipped) {
+                return;
+            }
+
+            this.reportSpecResultsOriginal(spec);
+        };
+
+        jasmine.JUnitXmlReporter.prototype.getNestedOutput = function (suite) {
+            if (suite.results().totalCount === 0) {
+                return "";
+            }
+
+            return this.getNestedOutputOriginal(suite);
+        };
+
         jasmine.JUnitXmlReporter.prototype.reportRunnerResults = function (runner) {
             var suites = runner.suites(),
                 output = '<?xml version="1.0" encoding="UTF-8" ?>',
@@ -290,11 +310,19 @@ define(function (require, exports, module) {
             beforeEach(function () {
                 // Unique key for unit testing
                 localStorage.setItem("preferencesKey", SpecRunnerUtils.TEST_PREFERENCES_KEY);
+
+                // Reset preferences from previous test runs
+                localStorage.removeItem("doLoadPreferences");
+                localStorage.removeItem(SpecRunnerUtils.TEST_PREFERENCES_KEY);
+                
+                SpecRunnerUtils.runBeforeFirst();
             });
             
             afterEach(function () {
                 // Clean up preferencesKey
                 localStorage.removeItem("preferencesKey");
+                
+                SpecRunnerUtils.runAfterLast();
             });
             
             jasmineEnv.updateInterval = 1000;
