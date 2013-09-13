@@ -152,7 +152,7 @@ define(function (require, exports, module) {
             });
         });
         state.marked.length = 0;
-        ScrollTrackMarkers.clear(cm);
+        ScrollTrackMarkers.clear();
     }
 
     function clearSearch(cm) {
